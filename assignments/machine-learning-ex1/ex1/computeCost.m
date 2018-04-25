@@ -13,8 +13,19 @@ J = 0;
 % Instructions: Compute the cost of a particular choice of theta
 %               You should set J to the cost.
 
+% use batch gradient descent
+% h(x) = theta' * x for each x in training set
+% theta is a (n x 1) col vector
+% x is a (1 x n) row vector. X is a (m x n) collection of row vectors
+% update all theta simultaneously
+temp_theta = theta' 
+prediction = zeros(m, 1);
+for j = 1:m
+  x = X(j, :)';
+  prediction(j) = prediction(j) + theta' * x;
+end;
 
-
+J = 1 / 2*m * ((prediction .- y) .^ 2);
 
 
 % =========================================================================
