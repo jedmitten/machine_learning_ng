@@ -18,14 +18,18 @@ J = 0;
 % theta is a (n x 1) col vector
 % x is a (1 x n) row vector. X is a (m x n) collection of row vectors
 % update all theta simultaneously
-temp_theta = theta' 
-prediction = zeros(m, 1);
-for j = 1:m
-  x = X(j, :)';
-  prediction(j) = prediction(j) + theta' * x;
-end;
 
-J = 1 / 2*m * ((prediction .- y) .^ 2);
+% from Mentor recommendations list, computing h with design matrix is X * theta
+% X = 97 x 2
+% theta = 2 x 1
+% h = 97x1
+h = X * theta;
+
+errors = (h - y) .^ 2;
+sum_sq_errors = sum(errors);
+
+% now calculate cost
+J = (1 / (2 * m)) * sum_sq_errors;
 
 
 % =========================================================================
