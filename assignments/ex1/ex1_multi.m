@@ -82,7 +82,7 @@ X = [ones(m, 1) X];
 fprintf('Running gradient descent ...\n');
 
 % Choose some alpha value
-alpha = 0.01;
+alpha = 0.03;
 num_iters = 400;
 
 % Init Theta and Run Gradient Descent 
@@ -99,11 +99,14 @@ ylabel('Cost J');
 fprintf('Theta computed from gradient descent: \n');
 fprintf(' %f \n', theta);
 fprintf('\n');
+sprintf('Program paused. Press any key to continue.\n');
+pause;
 
 % Estimate the price of a 1650 sq-ft, 3 br house
 % ====================== YOUR CODE HERE ======================
 % Recall that the first column of X is all-ones. Thus, it does
 % not need to be normalized.
+
 price = 0; % You should change this
 
 
