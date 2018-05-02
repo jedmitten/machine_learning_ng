@@ -24,8 +24,8 @@ theta_sq = theta(2:n) .^ 2;
 J = J + (lambda / (2 * m)) .* sum(theta_sq);
 
 % update basic gradient with regularization term
-grad_reg_term = ((lambda / m) .* grad(2:n))
-grad_rest = grad(2:n) + grad_reg_term
+grad_reg_term = ((lambda / m) .* theta(2:n));
+grad_rest = grad(2:n) + grad_reg_term;
 grad = [grad(1); grad_rest];
 
 % =============================================================
