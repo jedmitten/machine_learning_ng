@@ -18,15 +18,15 @@ grad = zeros(size(theta));
 %               derivatives of the cost w.r.t. each parameter in theta
 
 n = length(theta);
-[J, grad] = costFuntion(theta, X, y);
+[J, grad] = costFunction(theta, X, y);
 theta_sq = theta(2:n) .^ 2;
 % update basic cost with regularization term
 J = J + (lambda / (2 * m)) .* sum(theta_sq);
 
-grad_0 = grad(1);
 % update basic gradient with regularization term
-grad_rest = grad(2:n) + ((lambda / m) .* grad(2:n));
-grad = [grad_0; grad_rest];
+grad_reg_term = ((lambda / m) .* grad(2:n))
+grad_rest = grad(2:n) + grad_reg_term
+grad = [grad(1); grad_rest];
 
 % =============================================================
 
