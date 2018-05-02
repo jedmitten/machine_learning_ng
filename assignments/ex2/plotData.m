@@ -12,12 +12,13 @@ figure; hold on;
 %               examples and 'ko' for the negative examples.
 %
 
+% get indices of positive and negative from y (this is y-sub-j)
+pos = find(y==1); neg = find(y==0);
 
-
-
-
-
-
+% plot examples
+% plot X1 = exam 1, X2 = exam 2
+plot(X(pos, 1), X(pos, 2), 'k+', 'LineWidth', 3, 'MarkerSize', 8);
+plot(X(neg, 1), X(neg, 2), 'ko', 'MarkerFaceColor', 'b', 'MarkerSize', 8);
 
 
 % =========================================================================
