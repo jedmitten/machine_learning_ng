@@ -18,7 +18,7 @@ grad = zeros(size(theta));
 %               derivatives of the cost w.r.t. each parameter in theta
 
 n = length(theta);
-[J, grad] = costFunction(theta, X, y);
+[J, grad] = costFuntion(theta, X, y);
 theta_sq = theta(2:n) .^ 2;
 % update basic cost with regularization term
 J = J + (lambda / (2 * m)) .* sum(theta_sq);
