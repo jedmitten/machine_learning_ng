@@ -22,8 +22,16 @@ p = zeros(size(X, 1), 1);
 %
 
 
-
-
+X = [ones(m, 1) X];
+h = X * Theta1';
+% activate A1
+A1 = sigmoid(h);
+s2 = size(A1, 1);
+A1 = [ones(s2, 1) A1];
+h = A1 * Theta2';
+% activate A2
+A2 = sigmoid(h);
+[v, p] = max(A2, [], 2);
 
 
 
