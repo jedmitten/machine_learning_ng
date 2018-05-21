@@ -39,15 +39,17 @@ Theta2_grad = zeros(size(Theta2));
 %         cost function computation is correct by verifying the cost
 %         computed in ex4.m
 X2 = [ones(m, 1) X];
-A2 = sigmoid(X2 * Theta1');
+Z2 = X2 * Theta1';
+A2 = sigmoid(Z2);
 
 s2 = size(A2, 1);
 A2 = [ones(s2, 1) A2];
-A3 = sigmoid(A2 * Theta2');
+Z3 = A2 * Theta2';
+A3 = sigmoid(Z3);
 h = A3;
 
 % convert y to col vectors
-y2 = (y == [1:10]);
+y2 = (y == [1:num_labels]);
 
 % cost part 1
 pre_cost = 0;
@@ -64,8 +66,8 @@ J = (1 / m) * pre_cost;
 
 % regularize the cost function
 % remove bias col 1 from both thetas
-Theta1_trunc = Theta1(:, 2:size(Theta1, 2));
-Theta2_trunc = Theta2(:, 2:size(Theta2, 2));
+Theta1_trunc = Theta1(:, 2:end);
+Theta2_trunc = Theta2(:, 2:end);
 unrolled = [Theta1_trunc(:) ; Theta2_trunc(:)];
 reg_0 = sum(unrolled .^ 2);
 
@@ -86,6 +88,21 @@ J = J + (lambda / (2 * m)) * reg_0;
 %         Hint: We recommend implementing backpropagation using a for-loop
 %               over the training examples if you are implementing it for the 
 %               first time.
+
+# compute d3
+d_3 = A3 - y2;
+
+# compute d2
+sig_grad_z2 = sigmoidGradient(Z2);
+d_2 = (d_3 * Theta2(:, 2:end)) .* sig_grad_z2;
+
+Delta1 = d_2' * X2;
+Delta2 = d_3' * A2;
+
+% compute gradients
+Theta1_grad = (1 / m) .* Delta1;
+Theta2_grad = (1 / m) .* Delta2;
+
 %
 % Part 3: Implement regularization with the cost function and gradients.
 %
@@ -95,22 +112,15 @@ J = J + (lambda / (2 * m)) * reg_0;
 %               and Theta2_grad from Part 2.
 %
 
+% j = 0 does not use lambda (first col)
+tmp1 = Theta1_grad(:, 1);
+tmp2 = Theta1_grad(:, 2:end) + ((lambda / m) .* Theta1(:, 2:end));
+Theta1_grad = [tmp1 tmp2];
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+% j = 0 does not use lambda 
+tmp1 = Theta2_grad(:, 1);
+tmp2 = Theta2_grad(:, 2:end) + ((lambda / m) .* Theta2(:, 2:end));
+Theta2_grad = [tmp1 tmp2];
 
 
 % -------------------------------------------------------------
