@@ -15,11 +15,12 @@ sim = 0;
 %               sigma
 %
 %
+m = length(x1);
+distances = x1 .- x2;
+d_sq = distances .^ 2;
+summation = sum(d_sq);
 
-
-
-
-
+sim = exp(-1 * (summation / (2 * sigma ^ 2)));
 
 % =============================================================
     

@@ -22,9 +22,14 @@ sigma = 0.3;
 %  Note: You can compute the prediction error using 
 %        mean(double(predictions ~= yval))
 %
+C_vals = [0.01 0.03 0.1 0.3 1.0 3.0 10.0 30.0];
+sigma_vals = [0.01 0.03 0.1 0.3 1.0 3.0 10.0 30.0];
 
+% after iterating over the above values for C and sigma, C = 1 and sigma = 0.1
+% gave a prediction error of 0.03, which was the lowest prediction error
 
-
+C = 1;
+sigma = 0.1;
 
 
 
