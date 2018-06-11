@@ -6,7 +6,7 @@ dataset_filename = 'spamassassin_dataset.mat';
 if exist(dataset_filename) == 2
     fprintf('Loading data from %s\n', dataset_filename);
     dataset = load(dataset_filename);
-else
+elseif exist(dataset_filename) == 0
     % create and save dataset
     ham_list = readdir(ham_dir);
     ham_list = ham_list(3:2003);
@@ -44,5 +44,14 @@ else
 
     % save dataset
     fprintf('Saving dataset to %s\n', dataset_filename);
-    save(dataset_filename);
+    save dataset dataset_filename;
 end
+
+% create X and y
+X = dataset(:, 1:end-1);
+y = dataset(:, end);
+fprintf('Size X: %s\n', size(X));
+fprint('Size y: %s\n', size(y));
+C = 0.1;
+sigma = 0.3;
+model = svm
