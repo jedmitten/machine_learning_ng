@@ -18,8 +18,8 @@ word_indices = [];
 % Uncomment the following lines if you are working with raw emails with the
 % full headers
 
-% hdrstart = strfind(email_contents, ([char(10) char(10)]));
-% email_contents = email_contents(hdrstart(1):end);
+hdrstart = strfind(email_contents, ([char(10) char(10)]));
+email_contents = email_contents(hdrstart(1):end);
 
 % Lower case
 email_contents = lower(email_contents);
@@ -107,16 +107,16 @@ while ~isempty(email_contents)
 
 
     % Print to screen, ensuring that the output lines are not too long
-    if (l + length(str) + 1) > 78
-        fprintf('\n');
-        l = 0;
-    end
-    fprintf('%s ', str);
-    l = l + length(str) + 1;
+%    if (l + length(str) + 1) > 78
+%        fprintf('\n');
+%        l = 0;
+%    end
+%    fprintf('%s ', str);
+%    l = l + length(str) + 1;
 
 end
 
 % Print footer
-fprintf('\n\n=========================\n');
+%fprintf('\n\n=========================\n');
 
 end

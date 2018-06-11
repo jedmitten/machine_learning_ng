@@ -63,18 +63,21 @@ ytest = shuffled_dataset((train_max+1):end, 1:end-1);
 fprintf('Size X: \n');
 size(X)
 fprintf('Size y: \n');
-size(y);
+size(y)
 %fprintf('Size of Xval\n');
 %size(Xval);
 %fprintf('Size of yval\n');
 %size(yval);
 fprintf('Size of Xtest\n');
-size(Xtest);
+size(Xtest)
 fprintf('Size of ytest\n');
-size(ytest);
+size(ytest)
 C = 0.1;
-model = svmTrain(X, y, C, @linearKernel);
-p = svmPredict(model, X);
-fprintf('Training accuracy: %d\n', mean(double(p == y)) * 100);
-p = svmPredict(model, Xtest);
-fprintf('Test accuracy: %d\n', mean(double(p == y)) * 100);
+for C = [0.01 0.03 0.1 0.3 1 3 10 30]
+  fprintf('C = %d\n', C);
+  model = svmTrain(X, y, C, @linearKernel);
+  p = svmPredict(model, X);
+  fprintf('Training accuracy: %d\n', mean(double(p == y)) * 100);
+  p = svmPredict(model, Xtest);
+  fprintf('Test accuracy: %d\n', mean(double(p == y)) * 100);
+end
