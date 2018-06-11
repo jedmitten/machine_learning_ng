@@ -5,7 +5,7 @@ dataset_filename = 'spamassassin_dataset.mat';
 % load dataset from file if it exists
 if exist(dataset_filename) == 2
     fprintf('Loading data from %s\n', dataset_filename);
-    dataset = load(dataset_filename);
+    load(dataset_filename);  % loads variable called 'dataset'
 elseif exist(dataset_filename) == 0
     % create and save dataset
     ham_list = readdir(ham_dir);
@@ -47,11 +47,34 @@ elseif exist(dataset_filename) == 0
     save dataset dataset_filename;
 end
 
-% create X and y
-X = dataset(:, 1:end-1);
-y = dataset(:, end);
-fprintf('Size X: %s\n', size(X));
-fprint('Size y: %s\n', size(y));
+% create training, validation, and test sets
+% randomize rows
+shuffled_dataset = dataset(randperm(size(dataset)), :);
+% Create X, Xval, y, yval, Xtest, ytest
+%train_max = int32(length(dataset) * .6);
+%validation_max = train_max + int32(length(dataset) * .2);
+train_max = int32(length(shuffled_dataset) / 2);
+X = shuffled_dataset(1:train_max, 1:end-1);
+y = shuffled_dataset(1:train_max, end);
+%Xval = dataset((train_max)+1:validation_max, 1:end-1);
+%yval = dataset((train_max)+1:validation_max, end);
+Xtest = shuffled_dataset((train_max+1):end, 1:end-1);
+ytest = shuffled_dataset((train_max+1):end, 1:end-1);
+fprintf('Size X: \n');
+size(X)
+fprintf('Size y: \n');
+size(y);
+%fprintf('Size of Xval\n');
+%size(Xval);
+%fprintf('Size of yval\n');
+%size(yval);
+fprintf('Size of Xtest\n');
+size(Xtest);
+fprintf('Size of ytest\n');
+size(ytest);
 C = 0.1;
-sigma = 0.3;
-model = svm
+model = svmTrain(X, y, C, @linearKernel);
+p = svmPredict(model, X);
+fprintf('Training accuracy: %d\n', mean(double(p == y)) * 100);
+p = svmPredict(model, Xtest);
+fprintf('Test accuracy: %d\n', mean(double(p == y)) * 100);
