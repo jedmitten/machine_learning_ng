@@ -21,6 +21,9 @@ X_rec = zeros(size(Z, 1), size(U, 1));
 %               Notice that U(j, 1:K) is a row vector.
 %               
 
+% Z is m x k
+% U is n x n, but use only the top K eigenvectors
+X_rec = Z * U(:, 1:K)';
 
 
 % =============================================================
