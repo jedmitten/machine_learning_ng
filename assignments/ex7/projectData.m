@@ -17,8 +17,11 @@ Z = zeros(size(X, 1), K);
 %                    x = X(i, :)';
 %                    projection_k = x' * U(:, k);
 %
-
-
+U_reduce = U(:, 1:K);
+% U_reduce is n x k
+% X is m x n
+% Z should be m x k
+Z = X * U_reduce;
 
 
 % =============================================================
