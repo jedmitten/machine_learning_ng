@@ -26,9 +26,20 @@ centroids = zeros(K, n);
 % Note: You can use a for-loop over the centroids to compute this.
 %
 
+for k = 1:K
+  % find all points belonging to centroid k
+  members = (idx == k);
+  Ck = sum(members);
+  sum_x = zeros(1, n);
+  for j = 1:m
+    if members(j) == 1
+      sum_x = sum_x + X(j, :);
+    end
+  end
+  centroids(k, :) = (1 / Ck) .* sum_x;
+end
 
-
-
+      
 
 
 

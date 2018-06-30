@@ -21,6 +21,18 @@ idx = zeros(size(X,1), 1);
 % Note: You can use a for-loop over the examples to compute this.
 %
 
+for i = 1:length(X)
+  min_j = 100000000;
+  best_centroid = 1000000000000000;
+  for k = 1:K
+    j = norm(X(i, :) - centroids(k, :), 2);
+    if j < min_j
+      min_j = j;
+      best_centroid = k;
+    end
+  end
+  idx(i) = best_centroid;
+end
 
 
 
