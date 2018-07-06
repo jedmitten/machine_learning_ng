@@ -6,7 +6,7 @@ function [J, grad] = cofiCostFunc(params, Y, R, num_users, num_movies, ...
 %   collaborative filtering problem.
 %
 
-% Unfold the U and W matrices from params
+% Unfold the X and Theta matrices from params
 X = reshape(params(1:num_movies*num_features), num_movies, num_features);
 Theta = reshape(params(num_movies*num_features+1:end), ...
                 num_users, num_features);
@@ -38,21 +38,45 @@ Theta_grad = zeros(size(Theta));
 %                 partial derivatives w.r.t. to each element of X
 %        Theta_grad - num_users x num_features matrix, containing the 
 %                     partial derivatives w.r.t. to each element of Theta
-%
 
+% get all terms starting with Theta and X
+predictions = X * Theta'; % nm x nu
+movie_rating_error = (predictions - Y) .* R;  % nm x nu
+error_rating = movie_rating_error .^ 2;  % nm x nu
 
+% complete the cost function
+J = (1 / 2) * sum(sum(error_rating));
 
+% regularize cost function
+reg_1 = 0;
+for j = 1:num_users
+  for k = 1:num_features
+    reg_1 = reg_1 + (Theta(j,k) ^ 2);
+  end
+end
+reg_1 = (lambda / 2) * reg_1;
 
+reg_2 = 0;
+for i = 1:num_movies
+  for k = 1:num_features
+    reg_2 = reg_2 + (X(i, k) ^ 2);
+  end
+end
+reg_2 = (lambda / 2) * reg_2;
 
+J = J + reg_1 + reg_2;
 
+% now compute gradients 
+% Theta_grad should be nu x nf
+Theta_grad = movie_rating_error' * X;  % (nu x nm) * (nm x nf) = (nu x nf)
 
+% want X_grad to be nm x nf
+X_grad = movie_rating_error * Theta;  % (nm x nu) * (nu x nf) = (nm x nf)
 
+% regularize the gradients
+X_grad = X_grad + (lambda .* X);
 
-
-
-
-
-
+Theta_grad = Theta_grad + (lambda .* Theta);
 
 
 % =============================================================
